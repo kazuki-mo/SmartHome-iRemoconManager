@@ -1,0 +1,52 @@
+﻿@model iRemocon_Manager_01.Models.RegisterCodeModel
+
+@{
+    ViewBag.Title = "RegisterCode";
+    string range = " (1～1500)";
+    if (Model.IPAddress.Equals("192.168.10.80")) {
+        range = " (100～1500)";
+    }
+}
+
+<style type="text/css">
+    #p_id {
+        visibility: hidden;
+    }
+    #p_caution{
+        color: red;
+    }
+</style>
+
+<br />
+<h2>リモコンコード番号の新規登録</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+
+            <li>
+                <p id="p_id">@Html.TextBoxFor(m => m.IPAddress)</p>
+                @Html.LabelFor(m => m.IPAddress)
+                <p>@Model.IPAddress</p>
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Code)
+                @Html.TextBoxFor(m => m.Code) @range
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Detail)
+                @Html.TextAreaFor(m => m.Detail)
+            </li>
+        </ol>
+
+        <p id="p_caution"> ※「登録」ボタンを押した後、iRemoconの「Learn」ランプが点灯していることを確認し、学習したい赤外線信号をiRemoconに当てて下さい。</p>
+            <input type="submit" value="登録" />
+</fieldset>
+}

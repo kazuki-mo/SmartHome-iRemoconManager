@@ -1,0 +1,112 @@
+﻿@model iRemocon_Manager_01.TestDB_01Entities
+
+@{
+    int id = int.Parse(ViewBag.Message);
+    var target = Model.iRemocons.Where(p => p.ID == id).Single();
+    string ip = target.IPAddress.Replace('.','_');
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+}
+
+@{
+    ViewBag.Title = "ShowCodes";
+}
+
+@{
+    ViewBag.Title = "iRemocon Manager．登録コード";
+}
+
+<script type="text/javascript">
+    function ShowRunDialog(IP,Code) {
+
+        if (window.confirm(IP+'： is;' + Code + "を実行しますか？")) {
+
+            IP = IP.replace(/\./g, "_");
+            $.ajax({
+                type: 'get',
+                url: '@BaseUrl' + 'api/run/' + IP + '/is;' + Code,
+                success: function (data) {
+                    alert('res: ' + data);
+                },
+                error: function (xhr, status, err){
+                    alert('Error');
+                }
+            });
+        }
+        else {
+        }
+    }
+
+    function sleep(time, callback) {
+        setTimeout(callback, time);
+    }
+</script>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+
+<h2>IPアドレス： @target.IPAddress</h2>
+<h3>詳細： @target.Detail</h3>
+
+<style type="text/css">
+    table {
+        border: 3px solid #ccc;
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #ccc;
+        background-color: #808080;
+        color: #fff;
+        text-align: center;
+    }
+
+    td {
+        border: 1px solid #ccc;
+        background-color: #fff;
+        text-align: center;
+    }
+</style>
+
+<h2>登録コード 一覧</h2>
+<p>コード番号の新規登録は @Html.ActionLink("こちら", "RegisterCode", "Home", new { id = ip }, new { })</p>
+
+<table>
+
+    <tr>
+        <th class="center" align="center">操作</th>
+        <th class="center" align="center">コード番号</th>
+        <th class="center" align="center">詳細</th>
+
+    </tr>
+
+    @foreach (var x in target.RegistrationCodes) {
+
+        <tr class="center">
+
+            <td class="center">
+                <a href="#" onclick="ShowRunDialog('@target.IPAddress','@x.RegistrationCode1')">実行</a>  @Html.ActionLink("変更", "ChangeCodeInfo", "Home", new { id = ip, code = x.RegistrationCode1,detail = x.Detail }, new { })
+            </td>
+
+            <td class="center">
+                @x.RegistrationCode1
+            </td>
+
+            <td class="center">
+                @x.Detail
+            </td>
+
+        </tr>
+
+    }
+
+</table>

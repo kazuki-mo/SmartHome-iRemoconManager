@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestDB_01ModelStoreContainer" CdmEntityContainer="TestDB_01Entities">
+    <EntitySetMapping Name="iRemocons">
+      <EntityTypeMapping TypeName="TestDB_01Model.iRemocon">
+        <MappingFragment StoreEntitySet="iRemocons">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegistrationCodes">
+      <EntityTypeMapping TypeName="TestDB_01Model.RegistrationCode">
+        <MappingFragment StoreEntitySet="RegistrationCodes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="iRemocon_id" ColumnName="iRemocon_id" />
+          <ScalarProperty Name="RegistrationCode1" ColumnName="RegistrationCode1" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

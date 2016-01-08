@@ -1,0 +1,41 @@
+﻿@model iRemocon_Manager_01.Models.ChangeRemoconInfoModel
+
+@{
+    ViewBag.Title = "ChangeRemoconInfo";
+}
+
+<style type="text/css">
+    #p_id {
+        visibility: hidden;
+    }
+</style>
+
+
+<br />
+<h2>iRemocon情報の変更</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+            <li>
+                <p id="p_id">@Html.TextBoxFor(m => m.id)</p>
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.IPAddress)
+                @Html.TextBoxFor(m => m.IPAddress)
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Detail)
+                @Html.TextAreaFor(m => m.Detail)
+            </li>
+        </ol>
+        <input type="submit" value="変更" />
+    </fieldset>
+}

@@ -1,0 +1,105 @@
+﻿@model iRemocon_Manager_01.TestDB_01Entities
+
+@{
+    ViewBag.Title = "iRemocon Manager．Main Page";
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+}
+
+<script type="text/javascript">
+    function ShowDeleteDialog(IP) {
+
+        if (window.confirm(IP + '： このiRemoconを削除しますか？')) {
+
+            IP = IP.replace(/\./g, "_");
+            $.ajax({
+                type: 'get',
+                url: '@BaseUrl' + 'api/remocondelete/' + IP,
+                success: function (data) {
+                    alert(data + ' を削除しました。');
+                }
+            });
+            
+            sleep(1000, function () { location.href = "@BaseUrl"; });
+        }
+        else {
+        }
+    }
+
+    function sleep(time, callback) {
+        setTimeout(callback, time);
+    }
+</script>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+            </hgroup>
+        </div>
+    </section>
+}
+<style type="text/css">
+    table {
+        border: 3px solid #ccc;
+        border-spacing: 0;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid #ccc;
+        background-color: #808080;
+        color: #fff;
+        text-align: center;
+    }
+
+    td {
+        border: 1px solid #ccc;
+        background-color: #fff;
+        text-align: center;
+    }
+</style>
+
+<h2>iRemocon（旧型） 一覧</h2>
+<p>iRemoconの新規登録は @Html.ActionLink("こちら", "RemoconCreate", "Home")</p>
+
+<table>
+
+    <tr>
+        <th class="center" align="center">操作</th>
+        <th class="center" align="center">IPアドレス</th>
+        <th class="center" align="center">詳細</th>
+        <th class="center" align="center">登録コード</th>
+
+    </tr>
+
+    @foreach (var x in Model.iRemocons) {
+
+        <tr class="center">
+
+            <td class="center">
+                <a href="#" onclick="ShowDeleteDialog('@x.IPAddress')">削除</a>  @Html.ActionLink("変更", "ChangeRemoconInfo", "Home", new { id = x.ID }, new { })
+            </td>
+
+            <td class="center">
+                @x.IPAddress
+            </td>
+
+            <td class="center">
+                @x.Detail
+            </td>
+
+            <td>
+                @Html.ActionLink("コード一覧", "ShowCodes", "Home", new { id = x.ID }, new { })
+            </td>
+
+        </tr>
+
+    }
+
+</table>
+
+
+

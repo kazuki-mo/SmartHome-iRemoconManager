@@ -1,0 +1,55 @@
+﻿@model iRemocon_Manager_01.Models.ChangeCodeModel
+
+@{
+    ViewBag.Title = "ChangeCode";
+}
+
+<style type="text/css">
+    #p_id {
+        visibility: hidden;
+    }
+
+    #p_caution {
+        color: red;
+    }
+</style>
+
+<br />
+<h2>リモコンコード情報の変更/リモコンの学習</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+
+            <li>
+                <p id="p_id">@Html.TextBoxFor(m => m.IPAddress)</p>
+                @Html.LabelFor(m => m.IPAddress)
+                <p>@Model.IPAddress</p>
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Code)
+                @Html.ValueFor(m => m.Code)
+            </li>
+            <li></li><li></li>
+            <li>
+                @Html.LabelFor(m => m.Detail)
+                @Html.TextAreaFor(m => m.Detail)
+
+            </li>
+            <li>
+                @Html.CheckBoxFor(m => m.Check)&nbsp;リモコンの再学習を行わない
+            </li>
+
+        </ol>
+
+        <p id="p_caution"> ※「登録」ボタンを押した後、リモコンの再学習を行う場合は、iRemoconの「Learn」ランプが点灯していることを確認し、学習したい赤外線信号をiRemoconに当てて下さい。</p>
+        <input type="submit" value="登録" />
+        
+    </fieldset>
+}

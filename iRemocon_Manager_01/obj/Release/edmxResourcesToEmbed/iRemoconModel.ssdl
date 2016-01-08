@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestDB_01Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="iRemocons">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IPAddress" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="RegistrationCodes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="iRemocon_id" Type="int" Nullable="false" />
+    <Property Name="RegistrationCode1" Type="int" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_RegistrationCodes_iRemocons">
+    <End Role="iRemocons" Type="Self.iRemocons" Multiplicity="1" />
+    <End Role="RegistrationCodes" Type="Self.RegistrationCodes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="iRemocons">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RegistrationCodes">
+        <PropertyRef Name="iRemocon_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestDB_01ModelStoreContainer">
+    <EntitySet Name="iRemocons" EntityType="Self.iRemocons" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RegistrationCodes" EntityType="Self.RegistrationCodes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_RegistrationCodes_iRemocons" Association="Self.FK_RegistrationCodes_iRemocons">
+      <End Role="iRemocons" EntitySet="iRemocons" />
+      <End Role="RegistrationCodes" EntitySet="RegistrationCodes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
